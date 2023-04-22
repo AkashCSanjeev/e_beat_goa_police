@@ -9,9 +9,8 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class RouteSummary extends StatelessWidget {
-  RouteSummary({super.key});
-
-  List<String> location = ["Ponda", "GEC", "Farmagudi", "GVM's", "Bus Stand"];
+  List<String> location;
+  RouteSummary(this.location);
   String url = 'tel:+919422441471';
 
   @override

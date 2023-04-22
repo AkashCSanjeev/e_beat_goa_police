@@ -1,5 +1,6 @@
 import 'package:e_beat/components/TextField.dart';
 import 'package:e_beat/components/my_button.dart';
+import 'package:e_beat/screens/all_routes.dart';
 import 'package:e_beat/screens/route_summary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -77,7 +78,7 @@ class LogIn extends StatelessWidget {
                 onTap: () {
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context) {
-                    return RouteSummary();
+                    return AllRoutes();
                   }));
                 },
               ),

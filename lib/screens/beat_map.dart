@@ -9,29 +9,32 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 
 class UserMap extends StatefulWidget {
-  const UserMap({super.key});
+  List<LatLng> location;
+  UserMap(this.location);
 
   @override
-  State<UserMap> createState() => _UserMapState();
+  State<UserMap> createState() => _UserMapState(location);
 }
 
 class _UserMapState extends State<UserMap> {
+  List<LatLng> location;
+  _UserMapState(this.location);
+
   final Completer<GoogleMapController> _controller = Completer();
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(15.4027, 74.0078),
     zoom: 14,
   );
 
-  List<LatLng> latlng = [];
+  // List<LatLng> latlng = [];
   Set<Polyline> polylines = {};
   Set<Marker> _markers = {};
-  int count = 0;
-
-  List<dynamic> legs = [];
+  // int count = 0;
 
   @override
   void initState() {
     // TODO: implement initState
+
     super.initState();
   }
 
@@ -45,40 +48,41 @@ class _UserMapState extends State<UserMap> {
         myLocationEnabled: true,
         mapType: MapType.normal,
         onMapCreated: (controller) {
+          _addMarker(location);
           _controller.complete(controller);
         },
         markers: _markers,
-        onLongPress: _addMarker,
+        onLongPress: null,
       ),
     );
   }
 
-  void _addMarker(LatLng pos) {
-    latlng.add(pos);
-    _markers.add(
-      Marker(
-        markerId: MarkerId(count.toString()),
-        icon: BitmapDescriptor.defaultMarker,
-        position: pos,
-      ),
-    );
-    count++;
-    setState(() {
-      if (latlng.length > 1) {
-        drawPolyLine();
-      }
-    });
+  void _addMarker(List<LatLng> pos) {
+    for (int i = 0; i < pos.length; i++) {
+      _markers.add(
+        Marker(
+          markerId: MarkerId("$i"),
+          icon: BitmapDescriptor.defaultMarker,
+          position: pos[i],
+        ),
+      );
+      setState(() {
+        if (pos.length > 1) {
+          drawPolyLine();
+        }
+      });
+    }
   }
 
   void drawPolyLine() async {
-    var waypoints = latlng.sublist(1, latlng.length - 1);
+    var waypoints = location.sublist(1, location.length - 1);
     final url = Uri.https(
       'maps.googleapis.com',
       '/maps/api/directions/json',
       {
-        'origin': '${latlng[0].latitude},${latlng[0].longitude}',
+        'origin': '${location[0].latitude},${location[0].longitude}',
         'destination':
-            '${latlng[latlng.length - 1].latitude},${latlng[latlng.length - 1].longitude}',
+            '${location[location.length - 1].latitude},${location[location.length - 1].longitude}',
         'waypoints': waypoints
             .map((latlng) =>
                 "${latlng.latitude.toString()},${latlng.longitude.toString()}")

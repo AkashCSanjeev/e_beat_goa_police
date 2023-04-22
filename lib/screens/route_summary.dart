@@ -1,11 +1,7 @@
-import 'dart:html';
-
 import 'package:e_beat/components/my_button.dart';
 import 'package:e_beat/screens/beat_admin.dart';
 import 'package:e_beat/screens/beat_map.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';

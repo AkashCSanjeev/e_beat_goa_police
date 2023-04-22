@@ -87,6 +87,7 @@ class _UserMapState extends State<UserMap> {
         'key': 'AIzaSyDhw_dv7xSxPQWCQtzg6SnfuIEHpHBB_vc',
       },
     );
+    print(url);
     final response = await http.get(url);
     final body = response.body;
     final json = jsonDecode(body);

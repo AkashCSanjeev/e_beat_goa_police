@@ -1,9 +1,8 @@
 import 'package:e_beat/Models/created_route_model.dart';
 import 'package:e_beat/screens/beat_admin.dart';
+import 'package:e_beat/screens/create_route.dart';
 import 'package:e_beat/screens/route_summary.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class AllRoutes extends StatefulWidget {
   const AllRoutes({super.key});
@@ -88,7 +87,11 @@ class _AllRoutesState extends State<AllRoutes> {
             elevation: 0.0,
             child: new Icon(Icons.add),
             backgroundColor: Colors.blueGrey,
-            onPressed: () {}),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return CreateRoute();
+              }));
+            }),
       ),
     );
   }

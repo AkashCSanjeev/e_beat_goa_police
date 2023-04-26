@@ -2,8 +2,6 @@ import 'dart:convert';
 
 import 'package:e_beat/screens/route_summary.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
@@ -113,7 +111,7 @@ class _CreateRouteState extends State<CreateRoute> {
     String baseURL =
         'https://maps.googleapis.com/maps/api/place/autocomplete/json';
     String request =
-        '$baseURL?input=$input&key=AIzaSyDhw_dv7xSxPQWCQtzg6SnfuIEHpHBB_vc&sessiontoken=$_sessionToken&location=${latLng.latitude},${latLng.longitude}&components=country:in&radius=';
+        '$baseURL?input=$input&key=AIzaSyDhw_dv7xSxPQWCQtzg6SnfuIEHpHBB_vc&sessiontoken=$_sessionToken&location=${latLng.latitude},${latLng.longitude}&components=country:in&radius=5000';
 
     print(request);
     var response = await http.get(Uri.parse(request));

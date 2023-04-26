@@ -8,7 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class RouteSummary extends StatelessWidget {
   List<String> location;
-  late List<LatLng> locationLatLng;
+  List<LatLng> locationLatLng = [];
   RouteSummary(this.location);
   String url = 'tel:+919422441471';
 

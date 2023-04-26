@@ -1,7 +1,9 @@
 import 'package:e_beat/components/TextField.dart';
 import 'package:e_beat/components/my_button.dart';
-import 'package:e_beat/screens/all_routes.dart';
+import 'package:e_beat/screens/route_summary.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/widgets/placeholder.dart';
 
 class LogIn extends StatelessWidget {
   LogIn({super.key});
@@ -11,7 +13,6 @@ class LogIn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("Login");
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: SafeArea(
@@ -76,7 +77,7 @@ class LogIn extends StatelessWidget {
                 onTap: () {
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context) {
-                    return AllRoutes();
+                    return RouteSummary();
                   }));
                 },
               ),

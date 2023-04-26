@@ -1,15 +1,17 @@
+// TODO: Set up Query
+
 import 'package:e_beat/components/my_button.dart';
 import 'package:e_beat/screens/beat_admin.dart';
 import 'package:e_beat/screens/beat_map.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class RouteSummary extends StatelessWidget {
-  List<String> location;
-  List<LatLng> locationLatLng = [];
-  RouteSummary(this.location);
+  RouteSummary({super.key});
+
+  List<String> location = ["Ponda", "GEC", "Farmagudi", "GVM's", "Bus Stand"];
   String url = 'tel:+919422441471';
 
   @override
@@ -93,16 +95,10 @@ class RouteSummary extends StatelessWidget {
                 children: [
                   Expanded(
                       child: OverviewBtn(
-                    onTap: () async {
-                      for (var i = 0; i < location.length; i++) {
-                        List<Location> latLng =
-                            await locationFromAddress(location[i]);
-                        locationLatLng.add(LatLng(
-                            latLng.last.latitude, latLng.last.longitude));
-                      }
+                    onTap: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
-                        return UserMap(locationLatLng);
+                        return UserMap();
                       }));
                     },
                     lable: "Start",

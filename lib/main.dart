@@ -1,5 +1,7 @@
-import 'package:e_beat/screens/all_routes.dart';
-import 'package:e_beat/screens/create_route.dart';
+import 'package:e_beat/screens/beat_admin.dart';
+import 'package:e_beat/screens/beat_location_table.dart';
+import 'package:e_beat/screens/expandedTile_locations.dart';
+import 'package:e_beat/screens/form_gov.dart';
 import 'package:e_beat/screens/login_page.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LogIn(),
+      home: BeatAdmin(),
     );
   }
 }

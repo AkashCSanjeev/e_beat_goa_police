@@ -44,6 +44,8 @@ dependencies:
   permission_handler: ^10.2.0
   geofence_service: ^3.5.0
   local_auth: ^2.1.6
+  cloud_firestore: ^4.5.2
+  firebase_core: ^2.10.0
 
 dev_dependencies:
   flutter_test:

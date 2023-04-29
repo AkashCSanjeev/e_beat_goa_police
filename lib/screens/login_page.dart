@@ -1,6 +1,6 @@
 import 'package:e_beat/components/TextField.dart';
 import 'package:e_beat/components/my_button.dart';
-import 'package:e_beat/screens/all_routes.dart';
+import 'package:e_beat/screens/User/all_routes.dart';
 import 'package:flutter/material.dart';
 
 class LogIn extends StatelessWidget {

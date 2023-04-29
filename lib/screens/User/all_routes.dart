@@ -1,7 +1,7 @@
 import 'package:e_beat/Models/created_route_model.dart';
-import 'package:e_beat/screens/beat_admin.dart';
-import 'package:e_beat/screens/create_route.dart';
-import 'package:e_beat/screens/route_summary.dart';
+import 'package:e_beat/screens/User/beat_admin.dart';
+import 'package:e_beat/screens/User/create_route.dart';
+import 'package:e_beat/screens/User/route_summary.dart';
 import 'package:flutter/material.dart';
 
 class AllRoutes extends StatefulWidget {

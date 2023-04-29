@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -8,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:geofence_service/geofence_service.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:location/location.dart' as loc;
 
 class UserMap extends StatefulWidget {
   List<LatLng> location;
@@ -18,6 +20,9 @@ class UserMap extends StatefulWidget {
 }
 
 class _UserMapState extends State<UserMap> {
+  final loc.Location currentLoc = loc.Location();
+  StreamSubscription<loc.LocationData>? _locationSubscription;
+
   List<LatLng> location;
   _UserMapState(this.location);
 
@@ -138,6 +143,11 @@ class _UserMapState extends State<UserMap> {
 
     super.initState();
 
+    _requestLocationPermission();
+
+    _getLocation();
+    _listenToLocation();
+
     for (int i = 0; i < location.length; i++) {
       var value = Geofence(
         id: '$i',
@@ -161,16 +171,18 @@ class _UserMapState extends State<UserMap> {
     }
     _checkBiometrics();
     _getAvailableBiometric();
-    _requestLocationPermission();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _geofenceService
-          .addGeofenceStatusChangeListener(_onGeofenceStatusChanged);
-      // _geofenceService.addLocationChangeListener(_onLocationChanged);
-      // _geofenceService.addLocationServicesStatusChangeListener(_onLocationServicesStatusChanged);
-      // _geofenceService.addActivityChangeListener(_onActivityChanged);
-      // _geofenceService.addStreamErrorListener(_onError);
-      _geofenceService.start(_geofenceList).catchError(_onError);
-    });
+
+    if (_geofenceList.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _geofenceService
+            .addGeofenceStatusChangeListener(_onGeofenceStatusChanged);
+        // _geofenceService.addLocationChangeListener(_onLocationChanged);
+        // _geofenceService.addLocationServicesStatusChangeListener(_onLocationServicesStatusChanged);
+        // _geofenceService.addActivityChangeListener(_onActivityChanged);
+        // _geofenceService.addStreamErrorListener(_onError);
+        _geofenceService.start(_geofenceList).catchError(_onError);
+      });
+    }
   }
 
   Future<bool> _requestLocationPermission() async {
@@ -271,6 +283,47 @@ class _UserMapState extends State<UserMap> {
     _geofenceService.stop();
     print("disposed");
 
+    _stopListening();
+
     super.dispose();
+  }
+
+  _getLocation() async {
+    try {
+      final loc.LocationData _locationResult = await currentLoc.getLocation();
+      await FirebaseFirestore.instance.collection('location').doc('user1').set({
+        'latitude': _locationResult.latitude,
+        'longitude': _locationResult.longitude,
+        'name': 'Akash',
+        'officerID': 1
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  _listenToLocation() async {
+    print("lsiten to location");
+    _locationSubscription = currentLoc.onLocationChanged.handleError((onError) {
+      print(onError);
+      _locationSubscription?.cancel();
+      setState(() {
+        _locationSubscription = null;
+      });
+    }).listen((loc.LocationData curLoc) async {
+      await FirebaseFirestore.instance.collection('location').doc('user1').set({
+        'latitude': curLoc.latitude,
+        'longitude': curLoc.longitude,
+        'name': 'Akash',
+        'officerID': 1
+      }, SetOptions(merge: true));
+    });
+  }
+
+  _stopListening() {
+    _locationSubscription?.cancel();
+    setState(() {
+      _locationSubscription = null;
+    });
   }
 }

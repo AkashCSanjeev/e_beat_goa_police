@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 
@@ -27,7 +26,8 @@ class _UserMapState extends State<UserMap> {
   Set<Marker> _markers = {};
   int count = 0;
 
-  List<dynamic> legs = [];
+  List<dynamic> routes = [];
+  List<LatLng> polylineLatLng = [];
 
   @override
   void initState() {
@@ -87,20 +87,22 @@ class _UserMapState extends State<UserMap> {
         'key': 'AIzaSyDhw_dv7xSxPQWCQtzg6SnfuIEHpHBB_vc',
       },
     );
-    print(url);
     final response = await http.get(url);
     final body = response.body;
     final json = jsonDecode(body);
+    routes = json['routes'][0]['legs'][0]['steps'];
 
-    List<PointLatLng> pointss = PolylinePoints()
-        .decodePolyline(json['routes'][0]['overview_polyline']['points']);
+    polylineLatLng.add(latlng[0]);
+    print(latlng[0]);
+    print(
+        '${routes[0]['end_location']['lat']} ${routes[0]['end_location']['lng']}');
+    for (var i = 0; i < routes.length; i++) {
+      polylineLatLng.add(LatLng(
+          routes[i]['end_location']['lat'], routes[i]['end_location']['lng']));
+    }
 
-    polylines.add(Polyline(
-        polylineId: PolylineId("1"),
-        points: pointss.map((e) => LatLng(e.latitude, e.longitude)).toList(),
-        color:
-            Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
-        width: 4));
+    polylines
+        .add(Polyline(polylineId: PolylineId("1"), points: polylineLatLng));
 
     setState(() {});
   }

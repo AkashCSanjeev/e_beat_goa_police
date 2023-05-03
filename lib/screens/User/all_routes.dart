@@ -37,7 +37,8 @@ class _AllRoutesState extends State<AllRoutes> {
       body: Stack(
         children: [
           Container(
-            margin: EdgeInsets.fromLTRB(20, 75, 20, 20),
+            padding: EdgeInsets.all(20),
+            // margin: EdgeInsets.fromLTRB(20, 75, 20, 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -48,7 +49,7 @@ class _AllRoutesState extends State<AllRoutes> {
                       return BeatAdmin();
                     }));
                   },
-                  backgroundColor: Colors.amber,
+                  backgroundColor: Colors.grey.shade300,
                   child: Icon(
                     Icons.perm_identity,
                     color: Colors.black,
@@ -59,8 +60,10 @@ class _AllRoutesState extends State<AllRoutes> {
           ),
           Center(
             child: Container(
-              color: Colors.amber,
-              margin: EdgeInsets.fromLTRB(20, 160, 20, 50),
+              color: Color.fromRGBO(254, 243, 243, 1),
+              margin:
+                  EdgeInsets.only(top: 100, left: 30, right: 30, bottom: 160),
+              // margin: EdgeInsets.fromLTRB(20, 160, 20, 50),
               child: ListView.separated(
                   itemBuilder: (context, index) {
                     return ExpansionTile(
@@ -96,7 +99,7 @@ class _AllRoutesState extends State<AllRoutes> {
                                 return Divider(
                                   // height: 50,
                                   thickness: 1,
-                                  color: Colors.blueGrey,
+                                  // color: Colors.blueGrey,
                                 );
                               },
                               itemCount: er[index].area.length),
@@ -106,7 +109,7 @@ class _AllRoutesState extends State<AllRoutes> {
                   },
                   separatorBuilder: (context, index) {
                     return Divider(
-                      height: 50,
+                      height: 30,
                       thickness: 1,
                       color: Colors.black,
                     );
@@ -117,17 +120,24 @@ class _AllRoutesState extends State<AllRoutes> {
         ],
       ),
       floatingActionButton: Container(
-        margin: EdgeInsets.fromLTRB(0, 0, 10, 40),
-        child: new FloatingActionButton(
-            elevation: 0.0,
-            child: new Icon(Icons.add),
-            backgroundColor: Colors.blueGrey,
-            onPressed: () {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) {
-                return CreateRoute();
-              }));
-            }),
+        width: MediaQuery.of(context).size.width - 60,
+        margin: EdgeInsets.only(left: 30, bottom: 30),
+        child: Container(
+          height: 80,
+          child: FittedBox(
+            child: new FloatingActionButton(
+              elevation: 0.0,
+              child: new Icon(Icons.add),
+              backgroundColor: Colors.blue.shade800,
+              onPressed: () {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) {
+                  return CreateRoute();
+                }));
+              },
+            ),
+          ),
+        ),
       ),
     );
   }

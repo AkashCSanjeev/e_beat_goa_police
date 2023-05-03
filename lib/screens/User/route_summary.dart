@@ -88,7 +88,7 @@ class _RouteSummaryState extends State<RouteSummary> {
                           offset: Offset(0, 3))
                     ]),
                 child: Padding(
-                  padding: const EdgeInsets.all(18.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Container(
                     width: 300,
                     height: 350,
@@ -107,7 +107,7 @@ class _RouteSummaryState extends State<RouteSummary> {
                           return Divider(
                             height: 50,
                             thickness: 1,
-                            color: Colors.amber,
+                            color: Colors.black,
                           );
                         },
                         itemCount: widget.location.length),

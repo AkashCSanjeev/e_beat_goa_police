@@ -46,14 +46,14 @@ class OverviewBtn extends StatelessWidget {
         padding: EdgeInsets.all(25.0),
         margin: EdgeInsets.symmetric(horizontal: 25),
         decoration: BoxDecoration(
-          color: Colors.amberAccent,
-          borderRadius: BorderRadius.circular(8),
+          color: Colors.blue.shade600,
+          borderRadius: BorderRadius.circular(70),
         ),
         child: Center(
           child: Text(
             lable,
             style: TextStyle(
-              color: Colors.black,
+              color: Colors.white,
               fontWeight: FontWeight.bold,
               fontSize: 16.0,
             ),

@@ -79,32 +79,48 @@ class _CreateRouteState extends State<CreateRoute> {
       body: Column(
         children: [
           SizedBox(
-            height: 60,
+            height: 10,
           ),
-          TypeAheadFormField(
-              debounceDuration: Duration(milliseconds: 500),
-              textFieldConfiguration: TextFieldConfiguration(
-                  decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.search),
-                      border: OutlineInputBorder(),
-                      hintText: 'Select Area')),
-              onSuggestionSelected: (selectedArea) {},
-              itemBuilder: (context, Area index) {
-                return ListTile(
-                  title: Text("${index.name}"),
-                  onTap: () {
-                    print(index.id);
-                    locations.add(index);
-                    locationId.add(ObjectId.fromHexString(index.id));
-                    setState(() {});
-                  },
-                );
-              },
-              suggestionsCallback: getSuggestions),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: TypeAheadFormField(
+                debounceDuration: Duration(milliseconds: 500),
+                textFieldConfiguration: TextFieldConfiguration(
+                    decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.grey.shade400,
+                        prefixIcon: Icon(Icons.search),
+                        focusedBorder: UnderlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide: BorderSide.none),
+                        enabledBorder: UnderlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide: BorderSide.none),
+                        border: InputBorder.none,
+                        hintText: 'Select Area')),
+                onSuggestionSelected: (selectedArea) {},
+                itemBuilder: (context, Area index) {
+                  return ListTile(
+                    title: Text("${index.name}"),
+                    shape: BorderDirectional(
+                        bottom: BorderSide(
+                      color: Colors.black,
+                    )),
+                    onTap: () {
+                      print(index.id);
+                      locations.add(index);
+                      locationId.add(ObjectId.fromHexString(index.id));
+                      setState(() {});
+                    },
+                  );
+                },
+                suggestionsCallback: getSuggestions),
+          ),
           Container(
+            margin: EdgeInsets.all(20),
             width: double.infinity,
-            height: 400,
-            color: Colors.blueGrey,
+            height: MediaQuery.of(context).size.height - 400,
+            color: Colors.white60,
             child: ListView.separated(
                 itemBuilder: (context, index) {
                   return ListTile(
@@ -127,21 +143,22 @@ class _CreateRouteState extends State<CreateRoute> {
                 itemCount: locations.length),
           ),
           SizedBox(
-            height: 100,
+            height: 20,
           ),
-          Row(
+          Column(
             children: [
-              Expanded(
-                  child: OverviewBtn(
+              OverviewBtn(
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return RouteSummary(locations);
                   }));
                 },
                 lable: "Start",
-              )),
-              Expanded(
-                  child: OverviewBtn(
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              OverviewBtn(
                 onTap: () {
                   showDialog(
                       context: context,
@@ -216,7 +233,7 @@ class _CreateRouteState extends State<CreateRoute> {
                           ));
                 },
                 lable: "Save",
-              )),
+              ),
             ],
           )
         ],

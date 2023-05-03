@@ -10,11 +10,12 @@ class LoginBtn extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
+        width: 200,
         padding: EdgeInsets.all(25.0),
         margin: EdgeInsets.symmetric(horizontal: 25),
         decoration: BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.circular(8),
+          color: Colors.blue.shade900,
+          borderRadius: BorderRadius.circular(80),
         ),
         child: Center(
           child: Text(

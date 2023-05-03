@@ -24,16 +24,28 @@ class LoginTextField extends StatelessWidget {
         obscureText: obscureText,
         keyboardType: inputType,
         decoration: InputDecoration(
-          icon: icon,
+          prefixIcon: Icon(
+            icon,
+            color: Colors.black,
+          ),
+          border: InputBorder.none,
+          // icon: icon,
           hintText: hintText,
-          hintStyle: TextStyle(color: Colors.grey[500]),
+          hintStyle: TextStyle(
+            color: Colors.grey,
+          ),
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.white),
-          ),
+              borderRadius: BorderRadius.circular(30),
+              borderSide: BorderSide(
+                color: Colors.blue.shade300,
+              )),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey.shade400),
+            borderRadius: BorderRadius.circular(30),
+            borderSide: BorderSide(
+              color: Colors.blue.shade300,
+            ),
           ),
-          fillColor: Colors.grey.shade200,
+          fillColor: Color.fromRGBO(254, 243, 243, 1),
           filled: true,
         ),
       ),

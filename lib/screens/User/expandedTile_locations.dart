@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:e_beat/Models/EachLocation.dart';
+import 'package:e_beat/screens/User/create_location.dart';
 import 'package:flutter/material.dart';
 import 'package:e_beat/screens/User/form_gov.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -10,7 +11,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ext_tile_form extends StatefulWidget {
   String catId, lat, lng;
   int geoId;
-  ext_tile_form(this.catId, this.lat, this.lng, this.geoId);
+  List<LatLng> location;
+  ext_tile_form(this.catId, this.lat, this.lng, this.geoId, this.location);
 
   @override
   _ext_tile_formState createState() => _ext_tile_formState();
@@ -142,7 +144,11 @@ class _ext_tile_formState extends State<ext_tile_form> {
               );
             }),
         floatingActionButton: FloatingActionButton.large(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return CreateLocation(widget.catId, widget.location);
+              }));
+            },
             child: Text('+'),
             backgroundColor: Colors.blue[800]));
   }

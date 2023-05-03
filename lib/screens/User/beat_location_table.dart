@@ -8,13 +8,15 @@ import 'package:e_beat/screens/User/expandedTile_locations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AreaCategory extends StatefulWidget {
   String lat, lng;
   int geoId;
-  AreaCategory(this.lat, this.lng, this.geoId);
+  List<LatLng> location;
+  AreaCategory(this.lat, this.lng, this.geoId, this.location);
 
   @override
   State<AreaCategory> createState() => _AreaCategoryState();
@@ -52,7 +54,7 @@ class _AreaCategoryState extends State<AreaCategory> {
                   print(choices[index].title);
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return ext_tile_form(choices[index].id, widget.lat,
-                        widget.lng, widget.geoId);
+                        widget.lng, widget.geoId, widget.location);
                   }));
                 },
                 child: Center(
@@ -101,8 +103,8 @@ class _AreaCategoryState extends State<AreaCategory> {
                           Navigator.of(context).pop();
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
-                            return AreaCategory(
-                                widget.lat, widget.lng, widget.geoId);
+                            return AreaCategory(widget.lat, widget.lng,
+                                widget.geoId, widget.location);
                           })).then((value) => {
                                 setState(
                                   () {},

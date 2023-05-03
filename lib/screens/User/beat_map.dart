@@ -78,7 +78,7 @@ class _UserMapState extends State<UserMap> {
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
       Navigator.push(context, MaterialPageRoute(builder: (context) {
         trigger = false;
-        return AreaCategory(lat, lng, geoId);
+        return AreaCategory(lat, lng, geoId, location);
       }));
     }
   }

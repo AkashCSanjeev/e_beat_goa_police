@@ -184,11 +184,15 @@ class _RouteSummaryState extends State<RouteSummary> {
   void storeAreaId() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> areaId = [];
+    List<String> areaName = [];
     for (var i = 0; i < widget.location.length; i++) {
       areaId.add(widget.location[i].id);
+      areaName.add(widget.location[i].name);
     }
     print(areaId.toString());
+    print(areaName.toString());
     await prefs.setStringList('areaIds', areaId);
+    await prefs.setStringList('areaNames', areaName);
     print(prefs.getStringList('areaIds').toString());
   }
 }

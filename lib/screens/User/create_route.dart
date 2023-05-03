@@ -168,16 +168,7 @@ class _CreateRouteState extends State<CreateRoute> {
                               TextButton(
                                 onPressed: () async {
                                   print("Submit Cliked");
-                                  print(jsonEncode({
-                                    "name": _controllerDialogName.text,
-                                    "gid": "64444e10180bf61baeaf2d67",
-                                    "description": _controllerDialogDes.text,
-                                    "curRoutes": [
-                                      "644f6c6fee60e58eb042b3ee",
-                                      "644f6ca4ee60e58eb042b3f5",
-                                      "644f8f18f894846c02a5d0f9"
-                                    ]
-                                  }).toString());
+
                                   print("test");
                                   final SharedPreferences prefs =
                                       await SharedPreferences.getInstance();

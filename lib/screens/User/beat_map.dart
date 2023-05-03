@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_beat/screens/User/beat_location_table.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -59,7 +60,7 @@ class _UserMapState extends State<UserMap> {
     });
   }
 
-  Future<void> _authenticate() async {
+  Future<void> _authenticate(lat, lng, geoId) async {
     bool authenticate = false;
     try {
       authenticate =
@@ -73,6 +74,13 @@ class _UserMapState extends State<UserMap> {
       autherized = authenticate ? "Success" : "failed";
       print(autherized);
     });
+    if (autherized == "Success") {
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
+      Navigator.push(context, MaterialPageRoute(builder: (context) {
+        trigger = false;
+        return AreaCategory(lat, lng, geoId);
+      }));
+    }
   }
 
   final Completer<GoogleMapController> _controller = Completer();
@@ -100,7 +108,7 @@ class _UserMapState extends State<UserMap> {
 
   final List<Geofence> _geofenceList = [];
   Set<Circle> fence = {};
-
+  bool trigger = false;
   Future<void> _onGeofenceStatusChanged(
       Geofence geofence,
       GeofenceRadius geofenceRadius,
@@ -112,7 +120,8 @@ class _UserMapState extends State<UserMap> {
     print('geofenceStatus: ${geofenceStatus.toString()}');
     _geofenceStreamController.sink.add(geofence);
 
-    if (geofenceStatus == GeofenceStatus.ENTER) {
+    if (geofenceStatus == GeofenceStatus.ENTER && trigger == false) {
+      trigger = true;
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         duration: Duration(days: 365),
         content: Text("Reached"),
@@ -121,7 +130,10 @@ class _UserMapState extends State<UserMap> {
             label: 'verify',
             onPressed: () {
               print("Clicked");
-              _authenticate();
+              _authenticate(
+                  "${geofence.toJson()['latitude']}",
+                  "${geofence.toJson()['longitude']}",
+                  int.parse(geofence.toJson()['id']));
             }),
       ));
     }
@@ -189,6 +201,8 @@ class _UserMapState extends State<UserMap> {
     print("permisions");
     final permissionStatus = Permission.location.request();
     print(permissionStatus.toString());
+    print(permissionStatus == PermissionStatus.granted);
+
     return permissionStatus == PermissionStatus.granted;
   }
 

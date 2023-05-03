@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_beat/screens/User/all_routes.dart';
 import 'package:e_beat/screens/User/create_route.dart';
+import 'package:e_beat/screens/User/beat_location_table.dart';
 import 'package:e_beat/screens/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -28,7 +29,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LiveMap(),
+      home: LogIn(),
     );
   }
 }

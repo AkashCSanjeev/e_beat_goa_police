@@ -39,7 +39,7 @@ class _LiveMapState extends State<LiveMap> {
             .collection('BeatGroups')
             .doc(grpId)
             .collection('location')
-            .doc(ebeatID![0])
+            .doc("64440d4a8b3d61f503ae9528")
             .snapshots(),
         builder: (context, snapshot) {
           if (_added) {
@@ -100,15 +100,17 @@ class _LiveMapState extends State<LiveMap> {
       headers: {'Authorization': "Bearer $action"},
     );
     print(userGrpDetails.body);
+    print(jsonDecode(userGrpDetails.body)['data']['ebeats'].length);
     for (var i = 0;
-        i < jsonDecode(userGrpDetails.body)['data'][0]['ebeats'].length;
+        i < jsonDecode(userGrpDetails.body)['data']['ebeats'].length;
         i++) {
-      ebeatID!
-          .add("${jsonDecode(userGrpDetails.body)['data'][0]['ebeats'][i]}");
+      ebeatID!.add("${jsonDecode(userGrpDetails.body)['data']['ebeats'][i]}");
+      print("${jsonDecode(userGrpDetails.body)['data']['ebeats'][i]}");
     }
-    grpId = jsonDecode(userGrpDetails.body)['data'][0]['_id'];
+    grpId = jsonDecode(userGrpDetails.body)['data']['_id'];
     print(userGrpDetails.body);
     print(ebeatID);
+    setState(() {});
   }
 
   Future<void> mymap(snapshot) async {

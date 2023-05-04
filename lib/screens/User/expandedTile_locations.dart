@@ -32,125 +32,133 @@ class _ext_tile_formState extends State<ext_tile_form> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: const Text('Locations')),
-        body: ListView.builder(
-            itemCount: _items.length,
-            itemBuilder: (_, index) {
-              final item = _items[index];
-              return Card(
-                key: PageStorageKey(item.id),
-                color: Colors.blue,
-                elevation: 4,
-                child: ExpansionTile(
-                    iconColor: Colors.white,
-                    collapsedIconColor: Colors.white,
-                    childrenPadding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 20),
-                    expandedCrossAxisAlignment: CrossAxisAlignment.end,
-                    title: Text(
-                      item.name,
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                    children: [
-                      // This button is used to remove this item
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: FloatingActionButton.extended(
-                              label: Text('Report'),
-                              icon: Icon(Icons.edit),
-                              onPressed: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) {
-                                  return logIn3();
-                                }));
-                              },
-                              backgroundColor: Colors.red,
-                              foregroundColor: Colors.white,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: FloatingActionButton.extended(
-                              label: Text('All Good!'),
-                              icon: Icon(Icons.thumb_up),
-                              onPressed: () async {
-                                final SharedPreferences prefs =
-                                    await SharedPreferences.getInstance();
-                                print("Perf2" +
-                                    prefs.getStringList('placeIds').toString());
-                                final String? action =
-                                    prefs.getString('userToken');
-                                final String? grpId =
-                                    prefs.getString('userGrpId');
-                                final String? userResponse =
-                                    prefs.getString('userDetails');
-                                final String? usesrId =
-                                    jsonDecode("$userResponse")['data'][0]
-                                        ['user']['_id'];
-                                final List<String>? placeId =
-                                    prefs.getStringList('placeIds');
-
-                                print("PlaceIds");
-                                print(placeId.toString());
-
-                                var response = await post(
-                                    Uri.parse(
-                                        "https://ebeatapi.onrender.com/places/verifyreached"),
-                                    body: {
-                                      "userid": "${usesrId}",
-                                      "placeid": item.id,
-                                      "gid": "${grpId}",
-                                      "ltd": "${widget.lat}",
-                                      "lgn": "${widget.lng}"
-                                    },
-                                    headers: {
-                                      'Authorization': "Bearer $action"
-                                    });
-                                print(action);
-                                print(jsonEncode({
-                                  "userid": "${usesrId}",
-                                  "placeid": placeId![widget.geoId],
-                                  "gid": "${grpId}",
-                                  "ltd": "${widget.lat}",
-                                  "lgn": "${widget.lng}"
-                                }).toString());
-                                print(response.body);
-                                if (jsonDecode(response.body)["message"] ==
-                                    "Place Visited Marked") {
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(SnackBar(
-                                    duration: Duration(seconds: 5),
-                                    content: Text("Area marked"),
-                                    behavior: SnackBarBehavior.floating,
-                                  ));
-                                } else {
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(SnackBar(
-                                    duration: Duration(seconds: 5),
-                                    content: Text("Not present in that area"),
-                                    behavior: SnackBarBehavior.floating,
-                                  ));
-                                }
-                              },
-                              backgroundColor: Colors.green,
-                              foregroundColor: Colors.white,
-                            ),
-                          ),
-                        ],
+        body: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: ListView.builder(
+              itemCount: _items.length,
+              itemBuilder: (_, index) {
+                final item = _items[index];
+                return Card(
+                  key: PageStorageKey(item.id),
+                  color: Color.fromRGBO(253, 243, 243, 1),
+                  elevation: 4,
+                  child: ExpansionTile(
+                      iconColor: Colors.blue,
+                      collapsedIconColor: Colors.blue,
+                      childrenPadding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 20),
+                      expandedCrossAxisAlignment: CrossAxisAlignment.end,
+                      title: Text(
+                        item.name,
+                        style: const TextStyle(color: Colors.black),
                       ),
-                    ]),
-              );
-            }),
-        floatingActionButton: FloatingActionButton.large(
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return CreateLocation(widget.catId, widget.location);
-              }));
-            },
-            child: Text('+'),
-            backgroundColor: Colors.blue[800]));
+                      children: [
+                        // This button is used to remove this item
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: FloatingActionButton.extended(
+                                label: Text('Report'),
+                                icon: Icon(Icons.edit),
+                                onPressed: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return logIn3();
+                                  }));
+                                },
+                                backgroundColor: Colors.red,
+                                foregroundColor: Colors.white,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: FloatingActionButton.extended(
+                                label: Text('All Good!'),
+                                icon: Icon(Icons.thumb_up),
+                                onPressed: () async {
+                                  final SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
+                                  print("Perf2" +
+                                      prefs
+                                          .getStringList('placeIds')
+                                          .toString());
+                                  final String? action =
+                                      prefs.getString('userToken');
+                                  final String? grpId =
+                                      prefs.getString('userGrpId');
+                                  final String? userResponse =
+                                      prefs.getString('userDetails');
+                                  final String? usesrId =
+                                      jsonDecode("$userResponse")['data'][0]
+                                          ['user']['_id'];
+                                  final List<String>? placeId =
+                                      prefs.getStringList('placeIds');
+
+                                  print("PlaceIds");
+                                  print(placeId.toString());
+
+                                  var response = await post(
+                                      Uri.parse(
+                                          "https://ebeatapi.onrender.com/places/verifyreached"),
+                                      body: {
+                                        "userid": "${usesrId}",
+                                        "placeid": item.id,
+                                        "gid": "${grpId}",
+                                        "ltd": "${widget.lat}",
+                                        "lgn": "${widget.lng}"
+                                      },
+                                      headers: {
+                                        'Authorization': "Bearer $action"
+                                      });
+                                  print(action);
+                                  print(jsonEncode({
+                                    "userid": "${usesrId}",
+                                    "placeid": placeId![widget.geoId],
+                                    "gid": "${grpId}",
+                                    "ltd": "${widget.lat}",
+                                    "lgn": "${widget.lng}"
+                                  }).toString());
+                                  print(response.body);
+                                  if (jsonDecode(response.body)["message"] ==
+                                      "Place Visited Marked") {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                      duration: Duration(seconds: 5),
+                                      content: Text("Area marked"),
+                                      behavior: SnackBarBehavior.floating,
+                                    ));
+                                  } else {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                      duration: Duration(seconds: 5),
+                                      content: Text("Not present in that area"),
+                                      behavior: SnackBarBehavior.floating,
+                                    ));
+                                  }
+                                },
+                                backgroundColor: Colors.green,
+                                foregroundColor: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ]),
+                );
+              }),
+        ),
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: FloatingActionButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return CreateLocation(widget.catId, widget.location);
+                }));
+              },
+              child: Icon(Icons.add),
+              backgroundColor: Colors.blue[800]),
+        ));
   }
 
   void getLoationInCategory() async {

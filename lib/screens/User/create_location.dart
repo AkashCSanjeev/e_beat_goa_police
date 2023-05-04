@@ -43,8 +43,9 @@ class _CreateLocationState extends State<CreateLocation> {
 
   @override
   Widget build(BuildContext context) {
-    print("build $lat $lng");
-    print("build $Slat $Slng");
+    // print("build $lat $lng");
+    // print("build $Slat $Slng");
+    print('Location add');
     locNameController = TextEditingController(text: locationText);
 
     return Scaffold(

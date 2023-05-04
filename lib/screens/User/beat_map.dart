@@ -210,24 +210,27 @@ class _UserMapState extends State<UserMap> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GoogleMap(
-        polylines: polylines,
-        minMaxZoomPreference: MinMaxZoomPreference(14, 20),
-        zoomControlsEnabled: false,
-        initialCameraPosition: _kGooglePlex,
-        myLocationEnabled: true,
-        mapType: MapType.normal,
-        onMapCreated: (controller) {
-          _addMarker(location);
-          _controller.complete(controller);
-        },
-        markers: _markers,
-        onLongPress: null,
-        circles: fence,
-        cameraTargetBounds: new CameraTargetBounds(
-          new LatLngBounds(
-            northeast: bounds[0],
-            southwest: bounds[1],
+      body: Padding(
+        padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+        child: GoogleMap(
+          polylines: polylines,
+          minMaxZoomPreference: MinMaxZoomPreference(14, 20),
+          zoomControlsEnabled: false,
+          initialCameraPosition: _kGooglePlex,
+          myLocationEnabled: true,
+          mapType: MapType.normal,
+          onMapCreated: (controller) {
+            _addMarker(location);
+            _controller.complete(controller);
+          },
+          markers: _markers,
+          onLongPress: null,
+          circles: fence,
+          cameraTargetBounds: new CameraTargetBounds(
+            new LatLngBounds(
+              northeast: bounds[0],
+              southwest: bounds[1],
+            ),
           ),
         ),
       ),

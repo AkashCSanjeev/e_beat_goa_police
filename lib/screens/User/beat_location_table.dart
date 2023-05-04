@@ -41,7 +41,7 @@ class _AreaCategoryState extends State<AreaCategory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[400],
+      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: GridView.count(
@@ -63,67 +63,73 @@ class _AreaCategoryState extends State<AreaCategory> {
               );
             })),
       ),
-      floatingActionButton: FloatingActionButton.large(
-        onPressed: () async {
-          Navigator.pop(context);
-          showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                    title: Text("Name Category"),
-                    content: Container(
-                      height: 100,
-                      child: Column(
-                        children: [
-                          TextField(
-                            controller: _controllerDialogCat,
-                            decoration: InputDecoration(hintText: "Name"),
-                          ),
-                        ],
+      floatingActionButton: Container(
+        margin: EdgeInsets.only(
+          bottom: 20,
+          left: 20,
+        ),
+        child: FloatingActionButton(
+          onPressed: () async {
+            Navigator.pop(context);
+            showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                      title: Text("Name Category"),
+                      content: Container(
+                        height: 100,
+                        child: Column(
+                          children: [
+                            TextField(
+                              controller: _controllerDialogCat,
+                              decoration: InputDecoration(hintText: "Name"),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    actions: [
-                      TextButton(
-                        onPressed: () async {
-                          final SharedPreferences prefs =
-                              await SharedPreferences.getInstance();
-                          final String? action = prefs.getString('userToken');
-                          final String? grpId = prefs.getString('userGrpId');
-                          var response = await post(
-                            Uri.parse(
-                                "https://ebeatapi.onrender.com/category/create"),
-                            body: {
-                              "categoryName": _controllerDialogCat.text,
-                              "gid": "${grpId}",
-                            },
-                            headers: {'Authorization': "Bearer $action"},
-                          );
+                      actions: [
+                        TextButton(
+                          onPressed: () async {
+                            final SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            final String? action = prefs.getString('userToken');
+                            final String? grpId = prefs.getString('userGrpId');
+                            var response = await post(
+                              Uri.parse(
+                                  "https://ebeatapi.onrender.com/category/create"),
+                              body: {
+                                "categoryName": _controllerDialogCat.text,
+                                "gid": "${grpId}",
+                              },
+                              headers: {'Authorization': "Bearer $action"},
+                            );
 
-                          print(response.body);
+                            print(response.body);
 
-                          Navigator.of(context).pop();
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return AreaCategory(widget.lat, widget.lng,
-                                widget.geoId, widget.location);
-                          })).then((value) => {
-                                setState(
-                                  () {},
-                                )
-                              });
-                        },
-                        child: Text("Submit"),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Text("cancel"),
-                      ),
-                    ],
-                  ));
-        },
-        child: Text('+'),
-        backgroundColor: Colors.blue,
+                            Navigator.of(context).pop();
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return AreaCategory(widget.lat, widget.lng,
+                                  widget.geoId, widget.location);
+                            })).then((value) => {
+                                  setState(
+                                    () {},
+                                  )
+                                });
+                          },
+                          child: Text("Submit"),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text("cancel"),
+                        ),
+                      ],
+                    ));
+          },
+          child: Icon(Icons.add),
+          backgroundColor: Colors.blue,
+        ),
       ),
     );
   }

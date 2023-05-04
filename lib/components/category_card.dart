@@ -8,7 +8,7 @@ class SelectCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-        color: Colors.lightBlue,
+        color: Color.fromRGBO(253, 243, 243, 1),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         elevation: 15,
         margin: EdgeInsets.all(10),

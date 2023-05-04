@@ -71,7 +71,6 @@ class _RouteSummaryState extends State<RouteSummary> {
               "Route Overview",
               style: TextStyle(fontSize: 40, fontWeight: FontWeight.w800),
             ),
-            Text("Select a starting and ending point of your journey"),
             SizedBox(
               height: 60,
             ),
@@ -91,7 +90,7 @@ class _RouteSummaryState extends State<RouteSummary> {
                   padding: const EdgeInsets.all(10.0),
                   child: Container(
                     width: 300,
-                    height: 350,
+                    height: 250,
                     child: ListView.separated(
                         itemBuilder: (context, index) {
                           return ListTile(

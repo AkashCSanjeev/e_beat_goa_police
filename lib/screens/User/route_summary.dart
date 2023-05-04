@@ -38,51 +38,57 @@ class _RouteSummaryState extends State<RouteSummary> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Center(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 25, 25, 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    FloatingActionButton(
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return BeatAdmin();
-                        }));
-                      },
-                      backgroundColor: Colors.amber,
-                      child: Icon(
-                        Icons.perm_identity,
-                        color: Colors.black,
-                      ),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(23, 8, 25, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  FloatingActionButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return BeatAdmin();
+                      }));
+                    },
+                    backgroundColor: Colors.white,
+                    child: Icon(
+                      Icons.arrow_back,
+                      color: Colors.black,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              Text(
-                "Route",
-                style: TextStyle(
-                  fontSize: 50,
-                ),
-              ),
-              Text(
-                "Overview",
-                style: TextStyle(
-                  fontSize: 50,
-                ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Card(
+            ),
+            SizedBox(
+              height: 70,
+            ),
+            Text(
+              "Route Overview",
+              style: TextStyle(fontSize: 40, fontWeight: FontWeight.w800),
+            ),
+            Text("Select a starting and ending point of your journey"),
+            SizedBox(
+              height: 60,
+            ),
+            Card(
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(25),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.grey,
+                          spreadRadius: 5,
+                          blurRadius: 7,
+                          offset: Offset(0, 3))
+                    ]),
                 child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Container(
                     width: 300,
                     height: 350,
@@ -101,52 +107,57 @@ class _RouteSummaryState extends State<RouteSummary> {
                           return Divider(
                             height: 50,
                             thickness: 1,
-                            color: Colors.amber,
+                            color: Colors.black,
                           );
                         },
                         itemCount: widget.location.length),
                   ),
                 ),
               ),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                      child: OverviewBtn(
-                    onTap: () async {
-                      // for (var i = 0; i < widget.location.length; i++) {
-                      //   List<Location> latLng =
-                      //       await locationFromAddress(widget.location[i].city);
-                      //   locationLatLng.add(LatLng(
-                      //       latLng.last.latitude, latLng.last.longitude));
-                      // }
-                      storeAreaId();
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return UserMap(locationLatLng);
-                      }));
-                    },
-                    lable: "Start",
-                  )),
-                  Expanded(
-                      child: OverviewBtn(
-                    onTap: () async {
-                      final Uri url = Uri(scheme: 'tel', path: '9422441471');
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Spacer(),
+            Column(
+              children: [
+                OverviewBtn(
+                  onTap: () async {
+                    // for (var i = 0; i < widget.location.length; i++) {
+                    //   List<Location> latLng =
+                    //       await locationFromAddress(widget.location[i].city);
+                    //   locationLatLng.add(LatLng(
+                    //       latLng.last.latitude, latLng.last.longitude));
+                    // }
+                    storeAreaId();
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return UserMap(locationLatLng);
+                    }));
+                  },
+                  lable: "Start",
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                OverviewBtn(
+                  onTap: () async {
+                    final Uri url = Uri(scheme: 'tel', path: '9422441471');
 
-                      if (await canLaunchUrl(url)) {
-                        await launchUrl(url);
-                      } else {
-                        print('error');
-                      }
-                    },
-                    lable: "Query",
-                  )),
-                ],
-              )
-            ],
-          ),
+                    if (await canLaunchUrl(url)) {
+                      await launchUrl(url);
+                    } else {
+                      print('error');
+                    }
+                  },
+                  lable: "Query",
+                ),
+                SizedBox(
+                  height: 30,
+                )
+              ],
+            )
+          ],
         ),
       ),
     );

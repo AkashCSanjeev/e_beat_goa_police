@@ -66,7 +66,7 @@ class _CreateLocationState extends State<CreateLocation> {
           print(areaName.toString());
           print(dropdownValue);
           if (firstTime) {
-            dropdownValue = areaName!.first;
+            dropdownValue = areaName.first;
             firstTime = false;
           }
 
@@ -93,7 +93,7 @@ class _CreateLocationState extends State<CreateLocation> {
                                 print(area[value]);
                                 setState(() {});
                               },
-                              items: areaName!.map<DropdownMenuItem<String>>(
+                              items: areaName.map<DropdownMenuItem<String>>(
                                   (String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,

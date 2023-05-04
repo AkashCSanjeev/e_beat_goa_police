@@ -11,6 +11,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:geofence_service/geofence_service.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:location/location.dart' as loc;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserMap extends StatefulWidget {
   List<LatLng> location;
@@ -304,12 +305,24 @@ class _UserMapState extends State<UserMap> {
 
   _getLocation() async {
     try {
+      print("Get location");
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String? grpId = prefs.getString('userGrpId');
+      final String? userDet = prefs.getString('userDetails');
+
       final loc.LocationData _locationResult = await currentLoc.getLocation();
-      await FirebaseFirestore.instance.collection('location').doc('user1').set({
+
+      await FirebaseFirestore.instance
+          .collection('BeatGroups')
+          .doc(grpId)
+          .collection("location")
+          .doc('${jsonDecode(userDet!)['data'][0]['user']['_id']}')
+          .set({
+        'Role': jsonDecode(userDet)['data'][0]['user']['role'],
+        'name': jsonDecode(userDet)['data'][0]['user']['name'],
+        'officerID': jsonDecode(userDet)['data'][0]['user']['_id'],
         'latitude': _locationResult.latitude,
         'longitude': _locationResult.longitude,
-        'name': 'Akash',
-        'officerID': 1
       });
     } catch (e) {
       print(e);
@@ -317,7 +330,7 @@ class _UserMapState extends State<UserMap> {
   }
 
   _listenToLocation() async {
-    print("lsiten to location");
+    print("Listen to location");
     _locationSubscription = currentLoc.onLocationChanged.handleError((onError) {
       print(onError);
       _locationSubscription?.cancel();
@@ -325,11 +338,22 @@ class _UserMapState extends State<UserMap> {
         _locationSubscription = null;
       });
     }).listen((loc.LocationData curLoc) async {
-      await FirebaseFirestore.instance.collection('location').doc('user1').set({
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      final loc.LocationData _locationResult = await currentLoc.getLocation();
+      final String? grpId = prefs.getString('userGrpId');
+      final String? userDet = prefs.getString('userDetails');
+      await FirebaseFirestore.instance
+          .collection('BeatGroups')
+          .doc(grpId)
+          .collection("location")
+          .doc('${jsonDecode(userDet!)['data'][0]['user']['_id']}')
+          .set({
+        'Role': jsonDecode(userDet)['data'][0]['user']['role'],
+        'name': jsonDecode(userDet)['data'][0]['user']['name'],
+        'officerID': jsonDecode(userDet)['data'][0]['user']['_id'],
         'latitude': curLoc.latitude,
         'longitude': curLoc.longitude,
-        'name': 'Akash',
-        'officerID': 1
       }, SetOptions(merge: true));
     });
   }
